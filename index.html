@@ -1,383 +1,275 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovelConsult — Deep Narrative Architect</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          display: ['Fredoka', 'system-ui', 'sans-serif'],
-          body: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
-        },
-        colors: {
-          cream: '#f6f5f0',
-          ink: '#231a3a',
-          inksoft: '#4a3f66',
-          purple: {
-            900: '#3d1a78',
-            800: '#4c1d95',
-            700: '#5b21b6',
-            600: '#6d28d9',
-            500: '#7c3aed',
-            100: '#e7deff',
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novel Consult - Tulisanmu, Kita Kembangkan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Fredoka', 'sans-serif'],
+            body: ['Plus Jakarta Sans', 'sans-serif'],
           },
-          lime: {
-            600: '#6fb015',
-            500: '#8fce1e',
-            400: '#a6dc3f',
-            300: '#c3ea78',
-            100: '#eaf7d2',
-          },
-        },
-        borderRadius: {
-          blob: '42px',
-          'blob-lg': '54px',
-        },
-        boxShadow: {
-          soft: '0 20px 45px -20px rgba(61,26,120,0.35)',
-          card: '0 18px 34px -26px rgba(35,26,58,0.35)',
-        },
+          colors: {
+            brandPurple: '#5D2BEB',
+            brandDarkPurple: '#491CCB',
+            brandLime: '#A8E000',
+            brandLimeHover: '#96C900',
+            brandLightBg: '#F5F5FA',
+            brandCardBg: '#FFFFFF',
+            brandSoftPurple: '#EEECFD'
+          }
+        }
       }
     }
-  }
-</script>
-<style>
-  body{ font-family:'Plus Jakarta Sans', system-ui, sans-serif; background:#f6f5f0; }
-  .font-display{ font-family:'Fredoka', system-ui, sans-serif; }
-  ::-webkit-scrollbar{ width:8px; height:8px; }
-  ::-webkit-scrollbar-track{ background:transparent; }
-  ::-webkit-scrollbar-thumb{ background:#d8d0f0; border-radius:8px; }
-
-  .bg-dots{
-    background-image: radial-gradient(rgba(255,255,255,0.4) 1.5px, transparent 1.5px);
-    background-size: 24px 24px;
-  }
-  .bg-dots-purple{
-    background-image: radial-gradient(rgba(255,255,255,0.18) 1.4px, transparent 1.4px);
-    background-size: 24px 24px;
-  }
-
-  @keyframes float{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-12px);} }
-  .float{ animation: float 5.5s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce){ *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; } }
-
-  .chevron{ transition: transform .25s ease; }
-  .rotate-open{ transform: rotate(180deg); }
-  .acc-body{ display:grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
-  .acc-body.open{ grid-template-rows: 1fr; }
-  .acc-inner{ overflow:hidden; }
-
-  .spinner{
-    border: 4px solid rgba(124,58,237,0.15);
-    border-top-color: #7c3aed;
-    border-radius: 50%;
-    animation: spin 0.9s linear infinite;
-  }
-  @keyframes spin{ to{ transform: rotate(360deg); } }
-  .fade-in{ animation: fadein .5s ease both; }
-  @keyframes fadein{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:translateY(0);} }
-
-  select{ color-scheme: light; }
-</style>
+  </script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F5F5FA; }
+    .font-display { font-family: 'Fredoka', sans-serif; }
+    .blob-shape-1 { border-radius: 40px 120px 40px 40px; }
+    .blob-shape-2 { border-radius: 40px 40px 120px 40px; }
+  </style>
 </head>
-<body class="text-ink min-h-screen">
+<body class="text-slate-800 antialiased min-h-screen pb-16">
 
-<!-- ================= TOP BAR ================= -->
-<div class="max-w-6xl mx-auto px-5 sm:px-8 pt-7">
-  <div class="flex items-start justify-between gap-4 flex-wrap-reverse sm:flex-nowrap">
-
-    <!-- lang + profile -->
-    <div class="flex items-center gap-3">
-      <div id="langSwitch" class="relative flex items-center bg-white rounded-full p-1 text-xs font-bold select-none shadow-card">
-        <button data-lang="id" class="lang-btn relative z-10 px-4 py-2 rounded-full transition-colors text-white">ID</button>
-        <button data-lang="en" class="lang-btn relative z-10 px-4 py-2 rounded-full transition-colors text-inksoft">EN</button>
-        <span id="langPill" class="absolute top-1 left-1 h-[calc(100%-8px)] w-[42px] rounded-full bg-purple-700 transition-transform duration-300"></span>
+  <!-- Header / Navigation -->
+  <header class="max-w-6xl mx-auto px-4 pt-6 pb-4">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <!-- Top Pills & Menu -->
+      <div class="flex items-center gap-3">
+        <button onclick="scrollToConsult()" class="bg-brandLime hover:bg-brandLimeHover text-slate-900 font-bold px-6 py-2.5 rounded-full flex items-center gap-2 shadow-sm transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
+          Kelola konsultasi
+        </button>
       </div>
-      <button class="w-11 h-11 rounded-full bg-gradient-to-br from-purple-600 to-purple-900 flex items-center justify-center text-sm font-bold text-white shadow-card ring-2 ring-white" title="Profil pengguna">
-        NC
-      </button>
+
+      <!-- Navigation Links -->
+      <nav class="flex items-center gap-2 md:gap-6 bg-white px-6 py-2 rounded-full shadow-sm text-sm font-semibold text-slate-600">
+        <a href="#beranda" class="hover:text-brandPurple transition">Beranda</a>
+        <a href="#konsultasi" class="bg-slate-100 text-slate-900 px-4 py-1.5 rounded-full">Konsultasi</a>
+        <a href="#blog" class="hover:text-brandPurple transition">Blog</a>
+        <a href="#tentang" class="hover:text-brandPurple transition">Tentang</a>
+        <a href="#kontak" class="hover:text-brandPurple transition">Kontak</a>
+      </nav>
+
+      <!-- Logo -->
+      <div class="bg-brandPurple text-white px-5 py-2.5 rounded-full flex items-center gap-2 shadow-md">
+        <div class="bg-white text-brandPurple p-1.5 rounded-full">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"></path></svg>
+        </div>
+        <div class="leading-tight">
+          <div class="font-display font-bold text-sm tracking-wide">NOVEL CONSULT</div>
+          <div class="text-[9px] text-purple-200">TULISANMU, KITA KEMBANGKAN</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="max-w-6xl mx-auto px-4 mt-4 space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+      
+      <!-- Left Hero Banner -->
+      <div class="md:col-span-7 space-y-4">
+        <div class="bg-brandLime rounded-3xl p-8 relative overflow-hidden shadow-sm">
+          <div class="flex items-start gap-4">
+            <div class="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center text-3xl shrink-0">
+              👾
+            </div>
+            <div>
+              <h1 class="font-display text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
+                Konsultasi<br><span class="text-brandPurple">Novelmu</span>
+              </h1>
+              <p class="text-slate-800 font-medium text-sm mt-2 max-w-sm">
+                Dapatkan masukan dari pembaca & penulis berpengalaman
+              </p>
+              <button onclick="scrollToConsult()" class="mt-4 bg-brandPurple hover:bg-brandDarkPurple text-white font-bold px-6 py-2.5 rounded-full text-sm shadow-md transition">
+                Mulai Konsultasi
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Badge -->
+        <div class="flex items-center gap-3">
+          <div class="bg-brandPurple text-white px-6 py-3 rounded-full text-sm font-bold shadow-md flex items-center gap-2">
+            <span>Cerita kamu berharga!</span>
+            <span class="text-brandLime">✨</span>
+          </div>
+        </div>
+
+        <!-- Feature List -->
+        <div class="bg-brandLime/30 rounded-3xl p-6 border border-brandLime/50 space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="bg-brandPurple text-white px-4 py-1.5 rounded-full text-xs font-bold">Mengapa konsultasi?</span>
+          </div>
+          <ul class="space-y-2 text-xs md:text-sm font-semibold text-slate-700 pt-1">
+            <li class="flex items-center gap-2">
+              <span class="bg-brandPurple text-white p-1 rounded-md text-xs">📝</span> Masukan jujur & membangun
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="bg-brandPurple text-white p-1 rounded-md text-xs">✏️</span> Perbaiki alur, karakter, & penulisan
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="bg-brandPurple text-white p-1 rounded-md text-xs">💡</span> Tingkatkan kualitas ceritamu
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Hero Graphic / Interactive Card -->
+      <div class="md:col-span-5 bg-brandPurple rounded-3xl p-8 text-white relative shadow-xl overflow-hidden min-h-[380px] flex flex-col justify-between">
+        <div class="space-y-4 relative z-10">
+          <div class="flex items-center gap-3">
+            <span class="font-display text-4xl font-bold">N</span>
+            <div>
+              <h2 class="font-display text-2xl font-bold">Novel Consult</h2>
+              <p class="text-xs text-purple-200">Tempat terbaik untuk mengembangkan ceritamu</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 relative z-10 space-y-2 mt-8">
+          <p class="text-xs text-purple-100 leading-relaxed">
+            Siap untuk merancang outline novelmu secara otomatis atau berkonsultasi langsung?
+          </p>
+          <button onclick="scrollToConsult()" class="w-full bg-brandLime text-slate-900 hover:bg-brandLimeHover font-bold py-2.5 rounded-xl text-xs transition">
+            Buat Generator Outline Sekarang
+          </button>
+        </div>
+
+        <!-- Background Monster Graphic Avatar -->
+        <div class="absolute -bottom-6 -right-6 text-9xl opacity-30 select-none pointer-events-none">
+          👾
+        </div>
+      </div>
     </div>
 
-    <!-- brand badge -->
-    <div class="flex items-center gap-3 bg-gradient-to-br from-purple-600 to-purple-900 text-white pl-4 pr-6 py-3.5 rounded-b-[26px] rounded-t-2xl shadow-soft">
-      <div class="w-11 h-11 rounded-full bg-white/15 border-2 border-white/50 flex items-center justify-center text-xl flex-shrink-0">
-        ✍️
+    <!-- About Us Section -->
+    <section id="tentang" class="bg-white rounded-3xl p-8 shadow-sm space-y-6">
+      <div class="flex items-center gap-2 text-xs font-bold text-brandPurple">
+        <span class="w-2 h-2 rounded-full bg-brandPurple"></span> Tentang Kami
       </div>
-      <div class="leading-tight">
-        <div class="font-display font-semibold text-lg tracking-wide">NOVELCONSULT</div>
-        <div class="text-[0.62rem] font-bold tracking-[0.14em] uppercase opacity-85">Deep Narrative Architect</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- nav pill -->
-  <nav class="mt-6 bg-white rounded-full p-1.5 flex gap-1 w-fit shadow-card overflow-x-auto max-w-full" aria-label="Navigasi utama">
-    <a href="#buat" class="nav-link px-5 py-2.5 rounded-full font-semibold text-sm text-white bg-purple-700 whitespace-nowrap">Buat Outline</a>
-    <a href="#hasil" class="nav-link px-5 py-2.5 rounded-full font-semibold text-sm text-inksoft whitespace-nowrap hover:text-purple-700 transition">Hasil</a>
-    <a href="#histori" class="nav-link px-5 py-2.5 rounded-full font-semibold text-sm text-inksoft whitespace-nowrap hover:text-purple-700 transition">Histori Ide</a>
-  </nav>
-</div>
-
-<main class="max-w-6xl mx-auto px-5 sm:px-8 pb-24">
-
-  <!-- ================= HERO + FORM ================= -->
-  <section id="buat" class="mt-8 relative">
-    <div class="relative bg-gradient-to-br from-lime-400 via-lime-500 to-lime-600 rounded-blob-lg overflow-hidden">
-      <div class="absolute inset-0 bg-dots opacity-40 mix-blend-overlay pointer-events-none"></div>
-
-      <div class="relative grid lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center px-6 sm:px-12 pt-12 pb-16">
-        <div>
-          <span class="inline-flex items-center gap-2 bg-purple-900 text-white text-xs font-bold tracking-wide px-4 py-2 rounded-full mb-6">
-            <span class="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse"></span>
-            AI OUTLINE BUILDER
+      <div class="bg-brandPurple text-white rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-4 md:max-w-md">
+          <span class="bg-brandLime text-slate-900 font-bold px-4 py-1.5 rounded-full text-xs inline-block">
+            Setiap cerita punya potensi
           </span>
-          <h1 class="font-display font-semibold text-4xl sm:text-5xl leading-[1.05] text-white">
-            Novel Consult
-            <span class="block text-purple-900">Deep Narrative Architect</span>
-          </h1>
-          <p class="mt-5 max-w-md text-[#233a06] font-semibold leading-relaxed">
-            Susun master plot dan character bible novelmu dalam hitungan detik. Pilih genre dan jumlah bab, biar strukturnya kami rangkai untukmu.
+          <p class="text-xs md:text-sm text-purple-100 leading-relaxed">
+            Kami hadir untuk membantumu mengasah cerita, memperkuat karakter, dan membuat novelmu semakin hidup. Konsultasi, revisi, dan mentoring dalam satu tempat!
           </p>
         </div>
-
-        <div class="relative justify-self-center lg:justify-self-end w-full max-w-[300px] float">
-          <svg viewBox="0 0 420 460" width="100%">
-            <ellipse cx="210" cy="430" rx="150" ry="18" fill="rgba(30,20,60,0.12)"/>
-            <path d="M132 96c-10-30 6-52 26-46-4 18-8 34-14 50" fill="#5b21b6"/>
-            <path d="M280 92c14-28 0-52-20-48 2 18 4 34 8 52" fill="#5b21b6"/>
-            <g fill="#9a6ffb">
-              <circle cx="150" cy="120" r="10"/>
-              <circle cx="270" cy="118" r="11"/>
-              <circle cx="118" cy="180" r="9"/>
-              <circle cx="305" cy="185" r="10"/>
-              <circle cx="130" cy="240" r="9"/>
-              <circle cx="298" cy="245" r="9"/>
-            </g>
-            <path d="M130 160c-26 30-24 90 6 120 10 66 24 118 78 118s70-52 80-118c30-30 32-90 6-120-40-38-130-38-170 0z" fill="#7c3aed"/>
-            <path d="M164 210c-10 40 4 96 46 96s58-56 48-96c-20 16-72 16-94 0z" fill="#8a5cf6"/>
-            <circle cx="176" cy="196" r="26" fill="#fff"/>
-            <circle cx="248" cy="196" r="26" fill="#fff"/>
-            <circle cx="182" cy="200" r="13" fill="#4b2e17"/>
-            <circle cx="242" cy="200" r="13" fill="#4b2e17"/>
-            <circle cx="186" cy="195" r="4" fill="#fff"/>
-            <circle cx="246" cy="195" r="4" fill="#fff"/>
-            <path d="M182 232c14 26 44 26 58 0 6 20-6 40-29 40s-35-20-29-40z" fill="#2a1740"/>
-            <path d="M188 234c10 14 36 14 46 0" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none"/>
-            <ellipse cx="211" cy="252" rx="10" ry="7" fill="#c084fc"/>
-            <path d="M150 260c-30-4-46-40-34-64 8-16 30-16 34 6 10-4 20 6 16 20 10 6 8 24-4 30z" fill="#8a5cf6"/>
-            <rect x="118" y="150" width="20" height="60" rx="10" fill="#8a5cf6"/>
-            <path d="M300 300c30 4 44-20 40-40-4-14-22-16-28-2-12-6-24 4-22 18-10 4-12 18 10 24z" fill="#8a5cf6"/>
-            <g transform="translate(150,300)">
-              <path d="M0 0c30-14 60-14 90 0v70c-30-14-60-14-90 0z" fill="#4c1d95"/>
-              <path d="M180 0c-30-14-60-14-90 0v70c30-14 60-14 90 0z" fill="#4c1d95"/>
-              <path d="M2 4c26-10 52-10 86 2v62c-28-12-58-12-86-2z" fill="#f4ede2"/>
-              <path d="M178 4c-26-10-52-10-86 2v62c28-12 58-12 86-2z" fill="#f4ede2"/>
-              <line x1="90" y1="6" x2="90" y2="70" stroke="#4c1d95" stroke-width="3"/>
-            </g>
-            <ellipse cx="168" cy="392" rx="30" ry="16" fill="#5b21b6"/>
-            <ellipse cx="256" cy="392" rx="30" ry="16" fill="#5b21b6"/>
-          </svg>
-          <div class="absolute -top-2 -left-4 bg-purple-900 text-white text-xs font-display font-semibold px-4 py-2.5 rounded-2xl rounded-bl-sm shadow-soft">
-            Ceritamu dimulai di sini!
-          </div>
+        <div class="w-24 h-24 bg-brandLime rounded-full flex items-center justify-center text-5xl shadow-lg shrink-0">
+          📖
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- form card floating -->
-    <div class="relative -mt-12 mx-2 sm:mx-6 bg-white rounded-blob shadow-soft px-6 sm:px-10 py-8">
-      <form id="outlineForm" class="grid sm:grid-cols-[1fr_1fr_auto] gap-4 items-end">
+    <!-- Services Section -->
+    <section id="layanan" class="space-y-4">
+      <div class="flex items-center gap-2 text-xs font-bold text-brandPurple">
+        <span class="w-2 h-2 rounded-full bg-brandPurple"></span> Layanan Kami
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-3 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl bg-purple-100 text-brandPurple flex items-center justify-center text-xl font-bold">📋</div>
+          <h3 class="font-bold text-sm text-slate-800">Review Naskah</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Masukan detail untuk alur, karakter, dan gaya penulisan.</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-3 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl bg-purple-100 text-brandPurple flex items-center justify-center text-xl font-bold">📝</div>
+          <h3 class="font-bold text-sm text-slate-800">Pengembangan Cerita</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Bantu kembangkan ide, alur, worldbuilding, dan plot.</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-3 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl bg-purple-100 text-brandPurple flex items-center justify-center text-xl font-bold">💜</div>
+          <h3 class="font-bold text-sm text-slate-800">Mentoring Penulis</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Pendampingan menulis untuk semua tingkat penulis.</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-3 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl bg-purple-100 text-brandPurple flex items-center justify-center text-xl font-bold">✍️</div>
+          <h3 class="font-bold text-sm text-slate-800">Editing Naskah</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Perbaikan bahasa, ejaan, dan konsistensi cerita.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Generator Section (Konsultasi Form) -->
+    <section id="konsultasi" class="bg-white rounded-3xl p-6 md:p-8 shadow-sm space-y-6 scroll-mt-6">
+      <div class="flex items-center justify-between">
+        <h2 class="font-display text-2xl font-bold text-brandPurple">Generator Outline Novel</h2>
+        <span class="text-xs font-semibold text-slate-400" id="resultMeta"></span>
+      </div>
+
+      <form id="outlineForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label class="block text-xs font-bold text-inksoft mb-2 uppercase tracking-wide" for="genre">Genre</label>
-          <select id="genre" class="w-full bg-cream border-2 border-purple-100 rounded-2xl px-4 py-3.5 text-sm font-semibold text-ink focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
-            <option>Fantasi</option>
-            <option>Romance</option>
-            <option>Thriller</option>
-            <option>Sci-Fi</option>
-            <option>Drama</option>
-            <option>Horor</option>
-            <option>Petualangan</option>
-            <option>Slice of Life</option>
+          <label for="genre" class="block text-xs font-bold text-slate-700 mb-1">Pilih Genre</label>
+          <select id="genre" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 focus:outline-none focus:border-brandPurple">
+            <option value="Fantasi">Fantasi</option>
+            <option value="Romance">Romance</option>
+            <option value="Thriller">Thriller</option>
+            <option value="Sci-Fi">Sci-Fi</option>
+            <option value="Drama">Drama</option>
+            <option value="Horor">Horor</option>
+            <option value="Petualangan">Petualangan</option>
+            <option value="Slice of Life">Slice of Life</option>
           </select>
         </div>
+
         <div>
-          <label class="block text-xs font-bold text-inksoft mb-2 uppercase tracking-wide" for="chapters">Jumlah Bab</label>
-          <select id="chapters" class="w-full bg-cream border-2 border-purple-100 rounded-2xl px-4 py-3.5 text-sm font-semibold text-ink focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
-            <option value="5">5 Bab</option>
-            <option value="10" selected>10 Bab</option>
-            <option value="20">20 Bab</option>
-          </select>
+          <label for="chapters" class="block text-xs font-bold text-slate-700 mb-1">Jumlah Bab</label>
+          <input type="number" id="chapters" min="1" max="20" value="5" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 focus:outline-none focus:border-brandPurple">
         </div>
-        <button type="submit" id="generateBtn" class="h-[52px] px-7 rounded-full bg-purple-900 hover:bg-purple-800 text-white font-display font-semibold text-sm transition active:scale-[0.98] shadow-soft whitespace-nowrap">
-          ✨ Buat Outline
-        </button>
+
+        <div class="flex items-end">
+          <button type="submit" class="w-full bg-brandPurple hover:bg-brandDarkPurple text-white font-bold py-2.5 rounded-xl text-sm shadow-md transition">
+            Generate Outline
+          </button>
+        </div>
       </form>
-    </div>
-  </section>
 
-  <!-- ================= RESULTS ================= -->
-  <section id="hasil" class="mt-20">
-    <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-purple-600"></span>
-        <div>
-          <h2 class="font-display text-2xl text-ink font-semibold">Hasil Outline</h2>
-          <p class="text-sm text-inksoft mt-0.5">Klik tiap bab untuk lihat detail.</p>
+      <!-- Output States -->
+      <div id="idleState" class="text-center py-10 text-slate-400 text-sm">
+        Pilih genre dan jumlah bab, lalu klik <strong>Generate Outline</strong> untuk membuat kerangka naskah.
+      </div>
+
+      <div id="loadingState" class="hidden text-center py-10 space-y-3">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-brandPurple border-t-transparent"></div>
+        <p class="text-xs text-slate-500 font-semibold">Sedang merancang struktur cerita...</p>
+      </div>
+
+      <div id="resultsState" class="hidden space-y-6">
+        <div class="flex items-center justify-between">
+          <h3 class="font-display text-lg font-bold text-slate-800">Daftar Bab & Structure</h3>
+          <button id="saveIdeaBtn" class="bg-brandLime hover:bg-brandLimeHover text-slate-900 font-bold px-4 py-1.5 rounded-lg text-xs transition">
+            Simpan Ide
+          </button>
         </div>
+        <div id="outlineList" class="space-y-3"></div>
+
+        <h3 class="font-display text-lg font-bold text-slate-800 pt-4">Karakter Utama</h3>
+        <div id="characterList" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
       </div>
-      <span id="resultMeta" class="hidden text-xs font-bold px-4 py-2 rounded-full bg-purple-900 text-white"></span>
-    </div>
+    </section>
 
-    <!-- idle state -->
-    <div id="idleState" class="bg-white rounded-blob shadow-card p-14 text-center">
-      <div class="float text-5xl mb-4">🪄</div>
-      <p class="text-inksoft text-sm max-w-sm mx-auto font-semibold">Belum ada outline. Isi genre dan jumlah bab di atas, lalu klik "Buat Outline" untuk memulai.</p>
-    </div>
+    <!-- History Section -->
+    <section class="bg-white rounded-3xl p-6 md:p-8 shadow-sm space-y-4">
+      <h3 class="font-display text-xl font-bold text-slate-800">Histori Ide Tersimpan</h3>
+      <div id="historyEmpty" class="text-xs text-slate-400">Belum ada outline yang disimpan.</div>
+      <div id="historyList" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+    </section>
+  </main>
 
-    <!-- loading state -->
-    <div id="loadingState" class="hidden bg-white rounded-blob shadow-card p-14 text-center">
-      <div class="spinner w-11 h-11 mx-auto mb-5"></div>
-      <p class="font-display text-ink text-lg mb-1">Menyusun narasi<span id="loadingDots">...</span></p>
-      <p class="text-inksoft text-sm font-semibold">Merangkai plot, konflik, dan karakter yang koheren.</p>
-    </div>
-
-    <!-- results -->
-    <div id="resultsState" class="hidden fade-in">
-      <div class="grid lg:grid-cols-5 gap-6">
-        <!-- master plot -->
-        <div class="lg:col-span-3">
-          <div class="inline-flex items-center gap-2 bg-lime-400 text-purple-900 font-display font-semibold text-sm px-4 py-2 rounded-full mb-4">
-            📖 Master Plot
-          </div>
-          <div id="outlineList" class="space-y-3"></div>
-        </div>
-
-        <!-- character bible -->
-        <div class="lg:col-span-2">
-          <div class="inline-flex items-center gap-2 bg-purple-100 text-purple-900 font-display font-semibold text-sm px-4 py-2 rounded-full mb-4">
-            🎭 Character Bible
-          </div>
-          <div id="characterList" class="space-y-3"></div>
-        </div>
-      </div>
-
-      <div class="mt-8 flex justify-center">
-        <button id="saveIdeaBtn" class="px-7 py-3.5 rounded-full bg-white border-2 border-purple-100 shadow-card text-sm font-display font-semibold text-purple-900 hover:border-purple-400 hover:bg-purple-50 transition inline-flex items-center gap-2">
-          💾 Simpan ke Histori Ide
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= HISTORY ================= -->
-  <section id="histori" class="mt-20">
-    <div class="flex items-center gap-2 mb-1">
-      <span class="w-2 h-2 rounded-full bg-purple-600"></span>
-      <h2 class="font-display text-2xl text-ink font-semibold">Histori Ide</h2>
-    </div>
-    <p class="text-sm text-inksoft mb-6 ml-4 font-semibold">Outline yang pernah kamu simpan akan muncul di sini.</p>
-
-    <div id="historyEmpty" class="bg-white rounded-blob shadow-card p-14 text-center">
-      <div class="text-5xl mb-4 opacity-90">🗂️</div>
-      <p class="text-inksoft text-sm font-semibold">Belum ada ide yang tersimpan.</p>
-      <p class="text-inksoft/60 text-xs mt-1">Buat outline lalu klik "Simpan ke Histori Ide" untuk menyimpannya di sini.</p>
-    </div>
-
-    <div id="historyList" class="hidden grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-  </section>
-
-  <!-- ================= SERVICES STRIP (brand touch) ================= -->
-  <section class="mt-20 bg-gradient-to-br from-purple-600 to-purple-900 rounded-blob-lg px-6 sm:px-12 py-12 text-white relative overflow-hidden">
-    <div class="absolute inset-0 bg-dots-purple pointer-events-none"></div>
-    <div class="relative flex flex-col md:flex-row items-center justify-between gap-8">
-      <div class="max-w-md text-center md:text-left">
-        <h3 class="font-display text-2xl sm:text-3xl font-semibold mb-2">Butuh masukan manusia juga?</h3>
-        <p class="text-white/80 leading-relaxed">Kombinasikan outline AI dengan konsultasi langsung bareng pembaca &amp; penulis berpengalaman di Novel Consult.</p>
-        <button class="mt-6 inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-purple-900 font-display font-semibold px-6 py-3 rounded-full transition">
-          Mulai Konsultasi
-          <span class="w-6 h-6 rounded-full bg-purple-900 flex items-center justify-center">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#a6dc3f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </button>
-      </div>
-      <svg viewBox="0 0 300 340" width="180" class="flex-shrink-0">
-        <ellipse cx="150" cy="322" rx="110" ry="14" fill="rgba(0,0,0,0.15)"/>
-        <path d="M100 60c-6-18 8-32 22-24-2 8-4 16-6 26z" fill="#e6c419"/>
-        <path d="M196 58c8-16-2-32-18-28 0 8 2 18 6 30z" fill="#e6c419"/>
-        <path d="M90 120c-18 24-16 76 8 100 8 54 22 96 62 96s54-42 62-96c24-24 26-76 8-100-32-30-108-30-140 0z" fill="#8fce1e"/>
-        <path d="M118 158c-8 32 4 78 40 78s48-46 40-78c-18 12-62 12-80 0z" fill="#a6dc3f"/>
-        <circle cx="150" cy="160" r="34" fill="#fff"/>
-        <circle cx="150" cy="165" r="19" fill="#155e63"/>
-        <circle cx="157" cy="157" r="6" fill="#fff"/>
-        <path d="M126 200c14 20 34 20 48 0 4 16-8 32-24 32s-28-16-24-32z" fill="#2a1740"/>
-        <path d="M132 202c10 10 26 10 36 0" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none"/>
-        <ellipse cx="128" cy="300" rx="24" ry="13" fill="#5f8f10"/>
-        <ellipse cx="196" cy="300" rx="24" ry="13" fill="#5f8f10"/>
-      </svg>
-    </div>
-  </section>
-
-</main>
-
-<footer class="text-center py-8 text-inksoft/70 text-xs font-semibold">
-  &copy; 2026 NovelConsult — Tulisanmu, kita kembangkan.
-</footer>
-
-<!-- ================= PWA BANNER ================= -->
-<div id="pwaBanner" class="hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md">
-  <div class="bg-white rounded-blob shadow-soft p-4 pr-3 flex items-start gap-3 border-2 border-purple-100">
-    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-600 to-purple-900 flex items-center justify-center text-lg flex-shrink-0">
-      📲
-    </div>
-    <div class="flex-1 min-w-0">
-      <p class="text-sm font-display font-semibold text-ink">Pasang NovelConsult di layar utama</p>
-      <p class="text-xs text-inksoft mt-0.5 font-semibold">Akses lebih cepat, seperti aplikasi asli.</p>
-    </div>
-    <div class="flex items-center gap-1.5 flex-shrink-0">
-      <button id="pwaOpenBtn" class="text-xs font-display font-semibold px-3.5 py-2.5 rounded-full bg-purple-900 text-white hover:bg-purple-800 transition">Cara pasang</button>
-      <button id="pwaDismissBtn" class="text-xs px-2 py-2 rounded-full text-inksoft/60 hover:text-inksoft transition" aria-label="Tutup">✕</button>
-    </div>
-  </div>
-</div>
-
-<!-- ================= PWA MODAL ================= -->
-<div id="pwaModal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6">
-  <div id="pwaOverlay" class="absolute inset-0 bg-purple-900/50 backdrop-blur-sm"></div>
-  <div class="relative w-full sm:max-w-md bg-white rounded-t-blob-lg sm:rounded-blob-lg p-6 sm:p-9 shadow-soft fade-in">
-    <div class="flex items-center justify-between mb-5">
-      <h3 class="font-display text-xl text-ink font-semibold">Tambahkan ke Beranda</h3>
-      <button id="pwaCloseBtn" class="w-9 h-9 rounded-full bg-cream hover:bg-purple-100 text-inksoft flex items-center justify-center transition" aria-label="Tutup">✕</button>
-    </div>
-
-    <div class="flex gap-2 mb-5 bg-cream rounded-full p-1.5">
-      <button data-tab="ios" class="pwa-tab flex-1 text-sm font-display font-semibold py-2.5 rounded-full transition text-white bg-purple-700">🍎 Safari (iOS)</button>
-      <button data-tab="android" class="pwa-tab flex-1 text-sm font-display font-semibold py-2.5 rounded-full transition text-inksoft">🤖 Chrome (Android)</button>
-    </div>
-
-    <ol id="pwaStepsIOS" class="space-y-3 text-sm text-inksoft font-semibold">
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>Buka NovelConsult lewat browser Safari.</li>
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>Ketuk ikon <b class="text-ink">Share</b> (kotak dengan panah ke atas) di bagian bawah layar.</li>
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>Pilih <b class="text-ink">"Tambah ke Layar Utama"</b>, lalu ketuk <b class="text-ink">Tambah</b>.</li>
-    </ol>
-
-    <ol id="pwaStepsAndroid" class="hidden space-y-3 text-sm text-inksoft font-semibold">
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-lime-100 text-lime-600 flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>Buka NovelConsult lewat browser Chrome.</li>
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-lime-100 text-lime-600 flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>Ketuk ikon <b class="text-ink">titik tiga (⋮)</b> di pojok kanan atas.</li>
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-lime-100 text-lime-600 flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>Pilih <b class="text-ink">"Tambahkan ke layar utama"</b>, lalu ketuk <b class="text-ink">Tambahkan</b>.</li>
-    </ol>
-
-    <button id="pwaGotItBtn" class="mt-6 w-full py-3.5 rounded-full bg-purple-900 hover:bg-purple-800 text-white text-sm font-display font-semibold transition">
-      Mengerti
-    </button>
-  </div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
