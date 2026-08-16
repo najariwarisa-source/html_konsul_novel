@@ -3,381 +3,721 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovelConsult — Deep Narrative Architect</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Novel Consult — Tulisanmu, Kita Kembangkan</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script>
   tailwind.config = {
     theme: {
       extend: {
-        fontFamily: {
-          display: ['Fredoka', 'system-ui', 'sans-serif'],
-          body: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
-        },
         colors: {
-          cream: '#f6f5f0',
-          ink: '#231a3a',
-          inksoft: '#4a3f66',
-          purple: {
-            900: '#3d1a78',
-            800: '#4c1d95',
-            700: '#5b21b6',
-            600: '#6d28d9',
-            500: '#7c3aed',
-            100: '#e7deff',
-          },
-          lime: {
-            600: '#6fb015',
-            500: '#8fce1e',
-            400: '#a6dc3f',
-            300: '#c3ea78',
-            100: '#eaf7d2',
-          },
+          brandPurple: '#5B2FE0',
+          brandPurpleDark: '#3F1FA8',
+          brandPurpleDeep: '#2A1373',
+          brandLime: '#AEEA00',
+          brandLimeDark: '#8FC400',
+          ink: '#241A4A'
         },
-        borderRadius: {
-          blob: '42px',
-          'blob-lg': '54px',
+        fontFamily: {
+          display: ['Fredoka', 'sans-serif'],
+          body: ['Plus Jakarta Sans', 'sans-serif']
         },
         boxShadow: {
-          soft: '0 20px 45px -20px rgba(61,26,120,0.35)',
-          card: '0 18px 34px -26px rgba(35,26,58,0.35)',
-        },
+          soft: '0 20px 45px -20px rgba(42, 19, 115, 0.35)',
+          card: '0 10px 30px -12px rgba(42, 19, 115, 0.18)'
+        }
       }
     }
   }
 </script>
 <style>
-  body{ font-family:'Plus Jakarta Sans', system-ui, sans-serif; background:#f6f5f0; }
-  .font-display{ font-family:'Fredoka', system-ui, sans-serif; }
-  ::-webkit-scrollbar{ width:8px; height:8px; }
-  ::-webkit-scrollbar-track{ background:transparent; }
-  ::-webkit-scrollbar-thumb{ background:#d8d0f0; border-radius:8px; }
-
-  .bg-dots{
-    background-image: radial-gradient(rgba(255,255,255,0.4) 1.5px, transparent 1.5px);
-    background-size: 24px 24px;
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background:#ECECEC; }
+  h1,h2,h3,h4,.font-display { font-family: 'Fredoka', sans-serif; }
+  .blob-tr { border-radius: 40% 60% 55% 45% / 45% 40% 60% 55%; }
+  .blob-tail::after{
+    content:"";
+    position:absolute;
+    bottom:-14px; left:38px;
+    width:34px; height:34px;
+    background:inherit;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    border-bottom-left-radius: 10px;
   }
-  .bg-dots-purple{
-    background-image: radial-gradient(rgba(255,255,255,0.18) 1.4px, transparent 1.4px);
-    background-size: 24px 24px;
+  .dot-nav span{ transition: all .2s ease; }
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-thumb{ background:#C8C8C8; border-radius:20px; }
+  .fade-in{ animation: fadeIn .35s ease both; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .monster-float{ animation: floaty 4.5s ease-in-out infinite; }
+  @keyframes floaty{ 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-10px);} }
+  @media (prefers-reduced-motion: reduce){
+    .monster-float{ animation:none; }
+    .fade-in{ animation:none; }
   }
-
-  @keyframes float{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-12px);} }
-  .float{ animation: float 5.5s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce){ *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; } }
-
-  .chevron{ transition: transform .25s ease; }
-  .rotate-open{ transform: rotate(180deg); }
-  .acc-body{ display:grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
-  .acc-body.open{ grid-template-rows: 1fr; }
-  .acc-inner{ overflow:hidden; }
-
-  .spinner{
-    border: 4px solid rgba(124,58,237,0.15);
-    border-top-color: #7c3aed;
-    border-radius: 50%;
-    animation: spin 0.9s linear infinite;
+  input:focus, select:focus, button:focus-visible{
+    outline: 3px solid #AEEA00;
+    outline-offset: 2px;
   }
-  @keyframes spin{ to{ transform: rotate(360deg); } }
-  .fade-in{ animation: fadein .5s ease both; }
-  @keyframes fadein{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:translateY(0);} }
-
-  select{ color-scheme: light; }
 </style>
 </head>
-<body class="text-ink min-h-screen">
+<body class="text-ink">
 
-<!-- ================= TOP BAR ================= -->
-<div class="max-w-6xl mx-auto px-5 sm:px-8 pt-7">
-  <div class="flex items-start justify-between gap-4 flex-wrap-reverse sm:flex-nowrap">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 pt-6 pb-24 relative">
 
-    <!-- lang + profile -->
-    <div class="flex items-center gap-3">
-      <div id="langSwitch" class="relative flex items-center bg-white rounded-full p-1 text-xs font-bold select-none shadow-card">
-        <button data-lang="id" class="lang-btn relative z-10 px-4 py-2 rounded-full transition-colors text-white">ID</button>
-        <button data-lang="en" class="lang-btn relative z-10 px-4 py-2 rounded-full transition-colors text-inksoft">EN</button>
-        <span id="langPill" class="absolute top-1 left-1 h-[calc(100%-8px)] w-[42px] rounded-full bg-purple-700 transition-transform duration-300"></span>
+  <!-- ===== Logo badge (top right) ===== -->
+  <div class="absolute right-4 sm:right-6 top-0 z-30">
+    <div class="bg-brandPurple text-white rounded-b-3xl rounded-tl-3xl px-5 py-4 shadow-soft flex items-center gap-3">
+      <div class="w-11 h-11 rounded-full border-2 border-white/70 flex items-center justify-center shrink-0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 4.5C4 3.7 4.7 3 5.5 3H12V21H5.5C4.7 21 4 20.3 4 19.5V4.5Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><path d="M20 4.5C20 3.7 19.3 3 18.5 3H12V21H18.5C19.3 21 20 20.3 20 19.5V4.5Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/></svg>
       </div>
-      <button class="w-11 h-11 rounded-full bg-gradient-to-br from-purple-600 to-purple-900 flex items-center justify-center text-sm font-bold text-white shadow-card ring-2 ring-white" title="Profil pengguna">
-        NC
+      <div class="leading-tight">
+        <div class="font-display font-semibold text-base sm:text-lg tracking-wide">NOVEL CONSULT</div>
+        <div class="text-[10px] sm:text-[11px] text-white/80 tracking-wide">Tulisanmu, kita kembangkan</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Outer card ===== -->
+  <div class="bg-white rounded-[2.5rem] shadow-card pt-8 pb-2 relative overflow-visible">
+
+    <!-- Kelola konsultasi pill -->
+    <div class="absolute -left-2 sm:left-4 -top-6 z-20">
+      <button onclick="alert('Fitur kelola konsultasi khusus admin.')" class="flex items-center gap-2 bg-brandLime hover:bg-brandLimeDark transition text-ink font-display font-semibold text-sm sm:text-base px-5 py-3 rounded-full shadow-soft">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="shrink-0"><path d="M12 8a4 4 0 100 8 4 4 0 000-8z" stroke="#241A4A" stroke-width="1.6"/><path d="M19.4 13.5a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.03 1.56V20a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.03-1.56 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 13.5 1.7 1.7 0 003 12.47H2.9a2 2 0 110-4h.1a1.7 1.7 0 001.6-1.03 1.7 1.7 0 00-.34-1.87l-.06-.06A2 2 0 116.03 2.6l.06.06a1.7 1.7 0 001.87.34H8a1.7 1.7 0 001.56-1.03V1.9a2 2 0 114 0V2a1.7 1.7 0 001.03 1.56 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87V8a1.7 1.7 0 001.56 1.03h.1a2 2 0 010 4h-.1a1.7 1.7 0 00-1.56 1.03z" stroke="#241A4A" stroke-width="1.3" opacity="0"/></svg>
+        Kelola konsultasi
       </button>
     </div>
 
-    <!-- brand badge -->
-    <div class="flex items-center gap-3 bg-gradient-to-br from-purple-600 to-purple-900 text-white pl-4 pr-6 py-3.5 rounded-b-[26px] rounded-t-2xl shadow-soft">
-      <div class="w-11 h-11 rounded-full bg-white/15 border-2 border-white/50 flex items-center justify-center text-xl flex-shrink-0">
-        ✍️
+    <!-- Nav -->
+    <nav class="flex justify-center pt-6 pb-8 px-4">
+      <div class="flex flex-wrap justify-center gap-1 sm:gap-2 bg-white text-sm sm:text-base font-medium">
+        <a href="#" class="px-4 py-2 rounded-full text-slate-600 hover:bg-slate-100 transition">Beranda</a>
+        <a href="#konsultasi" onclick="scrollToConsult(); return false;" class="px-4 py-2 rounded-full bg-slate-100 text-ink font-semibold">Konsultasi</a>
+        <a href="#" class="px-4 py-2 rounded-full text-slate-600 hover:bg-slate-100 transition">Blog</a>
+        <a href="#tentang" class="px-4 py-2 rounded-full text-slate-600 hover:bg-slate-100 transition">Tentang</a>
+        <a href="#profil" class="px-4 py-2 rounded-full text-slate-600 hover:bg-slate-100 transition">Profil</a>
+        <a href="#layanan" class="px-4 py-2 rounded-full text-slate-600 hover:bg-slate-100 transition">Kontak</a>
       </div>
-      <div class="leading-tight">
-        <div class="font-display font-semibold text-lg tracking-wide">NOVELCONSULT</div>
-        <div class="text-[0.62rem] font-bold tracking-[0.14em] uppercase opacity-85">Deep Narrative Architect</div>
-      </div>
-    </div>
-  </div>
+    </nav>
 
-  <!-- nav pill -->
-  <nav class="mt-6 bg-white rounded-full p-1.5 flex gap-1 w-fit shadow-card overflow-x-auto max-w-full" aria-label="Navigasi utama">
-    <a href="#buat" class="nav-link px-5 py-2.5 rounded-full font-semibold text-sm text-white bg-purple-700 whitespace-nowrap">Buat Outline</a>
-    <a href="#hasil" class="nav-link px-5 py-2.5 rounded-full font-semibold text-sm text-inksoft whitespace-nowrap hover:text-purple-700 transition">Hasil</a>
-    <a href="#histori" class="nav-link px-5 py-2.5 rounded-full font-semibold text-sm text-inksoft whitespace-nowrap hover:text-purple-700 transition">Histori Ide</a>
-  </nav>
-</div>
+    <!-- ===== Hero ===== -->
+    <section class="relative px-4 sm:px-6">
+      <div class="relative bg-brandLime rounded-[2.25rem] overflow-hidden">
+        <svg class="absolute inset-0 w-full h-full opacity-[0.07] pointer-events-none" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice"><path d="M40 60 L140 40 L220 90 L300 50 L380 100 L470 55 L560 95 L650 50 L740 90" stroke="#241A4A" stroke-width="3" fill="none"/><circle cx="600" cy="380" r="70" stroke="#241A4A" stroke-width="3" fill="none"/><circle cx="150" cy="330" r="40" stroke="#241A4A" stroke-width="3" fill="none"/></svg>
 
-<main class="max-w-6xl mx-auto px-5 sm:px-8 pb-24">
+        <div class="relative grid md:grid-cols-2 gap-6 items-center px-6 sm:px-10 py-10 sm:py-14">
+          <div>
+            <div class="w-20 h-20 rounded-full bg-white shadow-soft flex items-center justify-center mb-5 overflow-hidden">
+              <!-- little green mascot avatar -->
+              <svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="28" r="18" fill="#7ED321"/><circle cx="21" cy="26" r="6.5" fill="white"/><circle cx="21" cy="26" r="3" fill="#241A4A"/><path d="M14 12 L18 20 L10 20 Z" fill="#F5C518"/><path d="M34 10 L36 19 L28 17 Z" fill="#F5C518"/><path d="M18 34 Q26 40 34 34" stroke="#241A4A" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <h1 class="font-display font-semibold text-3xl sm:text-4xl md:text-[2.6rem] leading-[1.08] text-ink">
+              Konsultasi<br><span class="text-brandPurple">Novelmu</span>
+            </h1>
+            <p class="mt-4 text-slate-700 text-sm sm:text-base max-w-sm">
+              Dapatkan masukan dari pembaca &amp; penulis berpengalaman untuk mengembangkan ceritamu.
+            </p>
+            <button onclick="scrollToConsult()" class="mt-6 bg-brandPurple hover:bg-brandPurpleDark transition text-white font-display font-medium px-6 py-3 rounded-full shadow-soft">
+              Mulai Konsultasi
+            </button>
+          </div>
 
-  <!-- ================= HERO + FORM ================= -->
-  <section id="buat" class="mt-8 relative">
-    <div class="relative bg-gradient-to-br from-lime-400 via-lime-500 to-lime-600 rounded-blob-lg overflow-hidden">
-      <div class="absolute inset-0 bg-dots opacity-40 mix-blend-overlay pointer-events-none"></div>
-
-      <div class="relative grid lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center px-6 sm:px-12 pt-12 pb-16">
-        <div>
-          <span class="inline-flex items-center gap-2 bg-purple-900 text-white text-xs font-bold tracking-wide px-4 py-2 rounded-full mb-6">
-            <span class="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse"></span>
-            AI OUTLINE BUILDER
-          </span>
-          <h1 class="font-display font-semibold text-4xl sm:text-5xl leading-[1.05] text-white">
-            Novel Consult
-            <span class="block text-purple-900">Deep Narrative Architect</span>
-          </h1>
-          <p class="mt-5 max-w-md text-[#233a06] font-semibold leading-relaxed">
-            Susun master plot dan character bible novelmu dalam hitungan detik. Pilih genre dan jumlah bab, biar strukturnya kami rangkai untukmu.
-          </p>
+          <div class="relative flex justify-center md:justify-end">
+            <div class="monster-float">
+              <!-- purple monster mascot (original illustration) -->
+              <svg width="230" height="260" viewBox="0 0 230 260" aria-hidden="true">
+                <ellipse cx="115" cy="245" rx="70" ry="10" fill="#241A4A" opacity="0.08"/>
+                <path d="M40 130 C40 60 75 20 115 20 C155 20 190 60 190 130 L190 190 C190 220 165 240 140 240 L90 240 C65 240 40 220 40 190 Z" fill="#7A4FF0"/>
+                <path d="M70 40 L60 75 L88 60 Z" fill="#5B2FE0"/>
+                <path d="M160 40 L170 75 L142 60 Z" fill="#5B2FE0"/>
+                <circle cx="92" cy="105" r="20" fill="white"/>
+                <circle cx="97" cy="107" r="9" fill="#241A4A"/>
+                <circle cx="140" cy="105" r="20" fill="white"/>
+                <circle cx="145" cy="107" r="9" fill="#241A4A"/>
+                <path d="M85 150 Q115 180 150 150 L150 165 Q115 195 85 165 Z" fill="#241A4A"/>
+                <rect x="60" y="150" width="12" height="55" rx="6" fill="#7A4FF0"/>
+                <circle cx="66" cy="145" r="9" fill="#7A4FF0"/>
+                <g transform="translate(78,175)">
+                  <path d="M0 45 L0 10 C0 4 5 0 12 0 L70 0 C77 0 82 4 82 10 L82 45 Z" fill="#3F1FA8"/>
+                  <line x1="41" y1="4" x2="41" y2="42" stroke="white" stroke-width="1.4" opacity=".5"/>
+                  <line x1="10" y1="14" x2="35" y2="10" stroke="white" stroke-width="1.4" opacity=".5"/>
+                  <line x1="47" y1="10" x2="72" y2="14" stroke="white" stroke-width="1.4" opacity=".5"/>
+                </g>
+              </svg>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="relative justify-self-center lg:justify-self-end w-full max-w-[300px] float">
-          <svg viewBox="0 0 420 460" width="100%">
-            <ellipse cx="210" cy="430" rx="150" ry="18" fill="rgba(30,20,60,0.12)"/>
-            <path d="M132 96c-10-30 6-52 26-46-4 18-8 34-14 50" fill="#5b21b6"/>
-            <path d="M280 92c14-28 0-52-20-48 2 18 4 34 8 52" fill="#5b21b6"/>
-            <g fill="#9a6ffb">
-              <circle cx="150" cy="120" r="10"/>
-              <circle cx="270" cy="118" r="11"/>
-              <circle cx="118" cy="180" r="9"/>
-              <circle cx="305" cy="185" r="10"/>
-              <circle cx="130" cy="240" r="9"/>
-              <circle cx="298" cy="245" r="9"/>
+      <!-- speech bubble -->
+      <div class="relative mt-5 max-w-xs">
+        <div class="bg-brandPurple text-white rounded-3xl rounded-bl-none px-6 py-5 shadow-soft relative">
+          <span class="absolute top-4 right-4 text-brandLime text-lg">✦</span>
+          <p class="font-display font-medium text-lg leading-snug">Cerita kamu<br>berharga!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Mengapa konsultasi ===== -->
+    <section class="px-4 sm:px-6 mt-6">
+      <div class="bg-brandLime rounded-[2.25rem] px-6 sm:px-10 py-8">
+        <div class="flex flex-wrap items-center gap-3 mb-6">
+          <span class="bg-brandPurple text-white font-display font-medium text-sm px-5 py-2.5 rounded-full">Mengapa konsultasi?</span>
+          <span class="dot-nav flex items-center gap-1.5 bg-white/70 px-3 py-2 rounded-full">
+            <span class="w-2 h-2 rounded-full bg-brandLimeDark"></span>
+            <span class="w-2 h-2 rounded-full bg-white"></span>
+            <span class="w-2 h-2 rounded-full bg-brandLimeDark"></span>
+          </span>
+        </div>
+        <ul class="space-y-4 max-w-md">
+          <li class="flex items-center gap-3">
+            <span class="w-8 h-8 shrink-0 rounded-full bg-brandPurple text-white flex items-center justify-center text-sm">✎</span>
+            <span class="text-sm sm:text-base text-ink font-medium">Masukan jujur &amp; membangun</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="w-8 h-8 shrink-0 rounded-full bg-brandPurple text-white flex items-center justify-center text-sm">✎</span>
+            <span class="text-sm sm:text-base text-ink font-medium">Perbaiki alur, karakter, &amp; penulisan</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="w-8 h-8 shrink-0 rounded-full bg-brandPurple text-white flex items-center justify-center text-sm">✎</span>
+            <span class="text-sm sm:text-base text-ink font-medium">Tingkatkan kualitas ceritamu</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Novel Consult purple banner ===== -->
+    <section class="px-4 sm:px-6 mt-6">
+      <div class="relative bg-gradient-to-br from-brandPurple to-brandPurpleDark rounded-[2.25rem] overflow-hidden px-6 sm:px-10 py-10 sm:py-14">
+        <svg class="absolute inset-0 w-full h-full opacity-[0.08] pointer-events-none" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice"><circle cx="650" cy="80" r="90" stroke="white" stroke-width="3" fill="none"/><path d="M20 300 L120 260 L200 310 L300 250" stroke="white" stroke-width="3" fill="none"/></svg>
+        <div class="relative grid md:grid-cols-[auto,1fr,auto] items-center gap-6">
+          <div class="font-display font-bold text-white text-7xl sm:text-8xl leading-none select-none flex items-start">
+            N<span class="text-3xl sm:text-4xl ml-1 mt-2">✒</span>
+          </div>
+          <div>
+            <h2 class="font-display font-semibold text-2xl sm:text-4xl text-white leading-tight">Novel Consult</h2>
+            <p class="text-white/80 mt-2 text-sm sm:text-base max-w-xs">Tempat terbaik untuk mengembangkan ceritamu</p>
+          </div>
+          <div class="hidden md:flex justify-end">
+            <div class="w-14 h-14 rounded-full bg-brandLime flex items-center justify-center text-xl">💚</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Tentang Kami ===== -->
+    <section id="tentang" class="px-4 sm:px-6 mt-10 scroll-mt-24">
+      <p class="text-brandPurple font-semibold text-sm mb-3 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brandPurple"></span> Tentang Kami</p>
+      <div class="relative bg-gradient-to-br from-brandPurple to-brandPurpleDark rounded-[2.25rem] px-6 sm:px-10 py-8 sm:py-10 grid md:grid-cols-[1fr,auto] gap-6 items-center overflow-hidden">
+        <svg class="absolute inset-0 w-full h-full opacity-[0.08] pointer-events-none" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice"><path d="M0 100 Q200 50 400 100 T800 100" stroke="white" stroke-width="3" fill="none"/></svg>
+        <div class="relative">
+          <span class="inline-block bg-brandLime text-ink font-display font-semibold text-sm px-5 py-2.5 rounded-full mb-5">Setiap cerita punya potensi</span>
+          <div class="bg-white/15 backdrop-blur-sm rounded-2xl px-5 py-5 text-white/95 text-sm sm:text-base leading-relaxed max-w-md">
+            Kami hadir untuk membantumu mengasah cerita, memperkuat karakter, dan membuat novelmu semakin hidup. Konsultasi, revisi, dan mentoring dalam satu tempat!
+          </div>
+        </div>
+        <div class="relative flex justify-center md:justify-end">
+          <div class="w-9 h-9 rounded-full bg-brandLime flex items-center justify-center absolute -top-1 right-6 md:right-2 text-sm z-10">💜</div>
+          <svg width="150" height="170" viewBox="0 0 150 170" aria-hidden="true">
+            <path d="M20 90 C20 40 45 12 75 12 C105 12 130 40 130 90 L130 130 C130 152 112 165 92 165 L58 165 C38 165 20 152 20 130 Z" fill="#7ED321"/>
+            <path d="M40 20 L32 45 L54 34 Z" fill="#F5C518"/>
+            <path d="M110 20 L118 45 L96 34 Z" fill="#F5C518"/>
+            <circle cx="75" cy="70" r="17" fill="white"/>
+            <circle cx="80" cy="72" r="8" fill="#241A4A"/>
+            <path d="M58 100 Q75 118 92 100 L92 110 Q75 126 58 110 Z" fill="#241A4A"/>
+            <g transform="translate(48,118)">
+              <path d="M0 38 L0 8 C0 3 4 0 9 0 L45 0 C50 0 54 3 54 8 L54 38 Z" fill="#5B2FE0"/>
+              <line x1="27" y1="3" x2="27" y2="35" stroke="white" stroke-width="1.2" opacity=".5"/>
             </g>
-            <path d="M130 160c-26 30-24 90 6 120 10 66 24 118 78 118s70-52 80-118c30-30 32-90 6-120-40-38-130-38-170 0z" fill="#7c3aed"/>
-            <path d="M164 210c-10 40 4 96 46 96s58-56 48-96c-20 16-72 16-94 0z" fill="#8a5cf6"/>
-            <circle cx="176" cy="196" r="26" fill="#fff"/>
-            <circle cx="248" cy="196" r="26" fill="#fff"/>
-            <circle cx="182" cy="200" r="13" fill="#4b2e17"/>
-            <circle cx="242" cy="200" r="13" fill="#4b2e17"/>
-            <circle cx="186" cy="195" r="4" fill="#fff"/>
-            <circle cx="246" cy="195" r="4" fill="#fff"/>
-            <path d="M182 232c14 26 44 26 58 0 6 20-6 40-29 40s-35-20-29-40z" fill="#2a1740"/>
-            <path d="M188 234c10 14 36 14 46 0" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none"/>
-            <ellipse cx="211" cy="252" rx="10" ry="7" fill="#c084fc"/>
-            <path d="M150 260c-30-4-46-40-34-64 8-16 30-16 34 6 10-4 20 6 16 20 10 6 8 24-4 30z" fill="#8a5cf6"/>
-            <rect x="118" y="150" width="20" height="60" rx="10" fill="#8a5cf6"/>
-            <path d="M300 300c30 4 44-20 40-40-4-14-22-16-28-2-12-6-24 4-22 18-10 4-12 18 10 24z" fill="#8a5cf6"/>
-            <g transform="translate(150,300)">
-              <path d="M0 0c30-14 60-14 90 0v70c-30-14-60-14-90 0z" fill="#4c1d95"/>
-              <path d="M180 0c-30-14-60-14-90 0v70c30-14 60-14 90 0z" fill="#4c1d95"/>
-              <path d="M2 4c26-10 52-10 86 2v62c-28-12-58-12-86-2z" fill="#f4ede2"/>
-              <path d="M178 4c-26-10-52-10-86 2v62c28-12 58-12 86-2z" fill="#f4ede2"/>
-              <line x1="90" y1="6" x2="90" y2="70" stroke="#4c1d95" stroke-width="3"/>
-            </g>
-            <ellipse cx="168" cy="392" rx="30" ry="16" fill="#5b21b6"/>
-            <ellipse cx="256" cy="392" rx="30" ry="16" fill="#5b21b6"/>
           </svg>
-          <div class="absolute -top-2 -left-4 bg-purple-900 text-white text-xs font-display font-semibold px-4 py-2.5 rounded-2xl rounded-bl-sm shadow-soft">
-            Ceritamu dimulai di sini!
-          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- form card floating -->
-    <div class="relative -mt-12 mx-2 sm:mx-6 bg-white rounded-blob shadow-soft px-6 sm:px-10 py-8">
-      <form id="outlineForm" class="grid sm:grid-cols-[1fr_1fr_auto] gap-4 items-end">
-        <div>
-          <label class="block text-xs font-bold text-inksoft mb-2 uppercase tracking-wide" for="genre">Genre</label>
-          <select id="genre" class="w-full bg-cream border-2 border-purple-100 rounded-2xl px-4 py-3.5 text-sm font-semibold text-ink focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
-            <option>Fantasi</option>
-            <option>Romance</option>
-            <option>Thriller</option>
-            <option>Sci-Fi</option>
-            <option>Drama</option>
-            <option>Horor</option>
-            <option>Petualangan</option>
-            <option>Slice of Life</option>
-          </select>
+    <!-- ===== Layanan Kami ===== -->
+    <section id="layanan" class="px-4 sm:px-6 mt-10 scroll-mt-24">
+      <p class="text-brandPurple font-semibold text-sm mb-4 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brandPurple"></span> Layanan Kami</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-card hover:-translate-y-1 transition">
+          <div class="w-11 h-11 rounded-xl bg-brandPurple/10 flex items-center justify-center text-lg mb-3">📝</div>
+          <h4 class="font-display font-semibold text-sm sm:text-base text-ink">Review Naskah</h4>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Masukan detail untuk alur, karakter, dan gaya penulisan.</p>
         </div>
-        <div>
-          <label class="block text-xs font-bold text-inksoft mb-2 uppercase tracking-wide" for="chapters">Jumlah Bab</label>
-          <select id="chapters" class="w-full bg-cream border-2 border-purple-100 rounded-2xl px-4 py-3.5 text-sm font-semibold text-ink focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
-            <option value="5">5 Bab</option>
-            <option value="10" selected>10 Bab</option>
-            <option value="20">20 Bab</option>
-          </select>
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-card hover:-translate-y-1 transition">
+          <div class="w-11 h-11 rounded-xl bg-brandPurple/10 flex items-center justify-center text-lg mb-3">📈</div>
+          <h4 class="font-display font-semibold text-sm sm:text-base text-ink">Pengembangan Cerita</h4>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Bantu kembangkan ide, alur, worldbuilding, dan plot.</p>
         </div>
-        <button type="submit" id="generateBtn" class="h-[52px] px-7 rounded-full bg-purple-900 hover:bg-purple-800 text-white font-display font-semibold text-sm transition active:scale-[0.98] shadow-soft whitespace-nowrap">
-          ✨ Buat Outline
-        </button>
-      </form>
-    </div>
-  </section>
-
-  <!-- ================= RESULTS ================= -->
-  <section id="hasil" class="mt-20">
-    <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-purple-600"></span>
-        <div>
-          <h2 class="font-display text-2xl text-ink font-semibold">Hasil Outline</h2>
-          <p class="text-sm text-inksoft mt-0.5">Klik tiap bab untuk lihat detail.</p>
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-card hover:-translate-y-1 transition">
+          <div class="w-11 h-11 rounded-xl bg-brandPurple/10 flex items-center justify-center text-lg mb-3">💜</div>
+          <h4 class="font-display font-semibold text-sm sm:text-base text-ink">Mentoring Penulis</h4>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Pendampingan menulis untuk semua tingkat penulis.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-card hover:-translate-y-1 transition">
+          <div class="w-11 h-11 rounded-xl bg-brandPurple/10 flex items-center justify-center text-lg mb-3">🖋️</div>
+          <h4 class="font-display font-semibold text-sm sm:text-base text-ink">Editing Naskah</h4>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Perbaikan bahasa, ejaan, dan konsistensi cerita.</p>
         </div>
       </div>
-      <span id="resultMeta" class="hidden text-xs font-bold px-4 py-2 rounded-full bg-purple-900 text-white"></span>
-    </div>
-
-    <!-- idle state -->
-    <div id="idleState" class="bg-white rounded-blob shadow-card p-14 text-center">
-      <div class="float text-5xl mb-4">🪄</div>
-      <p class="text-inksoft text-sm max-w-sm mx-auto font-semibold">Belum ada outline. Isi genre dan jumlah bab di atas, lalu klik "Buat Outline" untuk memulai.</p>
-    </div>
-
-    <!-- loading state -->
-    <div id="loadingState" class="hidden bg-white rounded-blob shadow-card p-14 text-center">
-      <div class="spinner w-11 h-11 mx-auto mb-5"></div>
-      <p class="font-display text-ink text-lg mb-1">Menyusun narasi<span id="loadingDots">...</span></p>
-      <p class="text-inksoft text-sm font-semibold">Merangkai plot, konflik, dan karakter yang koheren.</p>
-    </div>
-
-    <!-- results -->
-    <div id="resultsState" class="hidden fade-in">
-      <div class="grid lg:grid-cols-5 gap-6">
-        <!-- master plot -->
-        <div class="lg:col-span-3">
-          <div class="inline-flex items-center gap-2 bg-lime-400 text-purple-900 font-display font-semibold text-sm px-4 py-2 rounded-full mb-4">
-            📖 Master Plot
-          </div>
-          <div id="outlineList" class="space-y-3"></div>
-        </div>
-
-        <!-- character bible -->
-        <div class="lg:col-span-2">
-          <div class="inline-flex items-center gap-2 bg-purple-100 text-purple-900 font-display font-semibold text-sm px-4 py-2 rounded-full mb-4">
-            🎭 Character Bible
-          </div>
-          <div id="characterList" class="space-y-3"></div>
-        </div>
-      </div>
-
-      <div class="mt-8 flex justify-center">
-        <button id="saveIdeaBtn" class="px-7 py-3.5 rounded-full bg-white border-2 border-purple-100 shadow-card text-sm font-display font-semibold text-purple-900 hover:border-purple-400 hover:bg-purple-50 transition inline-flex items-center gap-2">
-          💾 Simpan ke Histori Ide
+      <div class="flex justify-center mt-6">
+        <button onclick="scrollToConsult()" class="flex items-center gap-2 bg-brandPurple hover:bg-brandPurpleDark transition text-white font-display font-medium text-sm px-6 py-3 rounded-full shadow-soft">
+          Lihat Semua Layanan <span>→</span>
         </button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ================= HISTORY ================= -->
-  <section id="histori" class="mt-20">
-    <div class="flex items-center gap-2 mb-1">
-      <span class="w-2 h-2 rounded-full bg-purple-600"></span>
-      <h2 class="font-display text-2xl text-ink font-semibold">Histori Ide</h2>
-    </div>
-    <p class="text-sm text-inksoft mb-6 ml-4 font-semibold">Outline yang pernah kamu simpan akan muncul di sini.</p>
-
-    <div id="historyEmpty" class="bg-white rounded-blob shadow-card p-14 text-center">
-      <div class="text-5xl mb-4 opacity-90">🗂️</div>
-      <p class="text-inksoft text-sm font-semibold">Belum ada ide yang tersimpan.</p>
-      <p class="text-inksoft/60 text-xs mt-1">Buat outline lalu klik "Simpan ke Histori Ide" untuk menyimpannya di sini.</p>
-    </div>
-
-    <div id="historyList" class="hidden grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-  </section>
-
-  <!-- ================= SERVICES STRIP (brand touch) ================= -->
-  <section class="mt-20 bg-gradient-to-br from-purple-600 to-purple-900 rounded-blob-lg px-6 sm:px-12 py-12 text-white relative overflow-hidden">
-    <div class="absolute inset-0 bg-dots-purple pointer-events-none"></div>
-    <div class="relative flex flex-col md:flex-row items-center justify-between gap-8">
-      <div class="max-w-md text-center md:text-left">
-        <h3 class="font-display text-2xl sm:text-3xl font-semibold mb-2">Butuh masukan manusia juga?</h3>
-        <p class="text-white/80 leading-relaxed">Kombinasikan outline AI dengan konsultasi langsung bareng pembaca &amp; penulis berpengalaman di Novel Consult.</p>
-        <button class="mt-6 inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-purple-900 font-display font-semibold px-6 py-3 rounded-full transition">
-          Mulai Konsultasi
-          <span class="w-6 h-6 rounded-full bg-purple-900 flex items-center justify-center">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#a6dc3f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </button>
+    <!-- ===== PROFIL — functional widget ===== -->
+    <section id="profil" class="px-4 sm:px-6 mt-14 scroll-mt-24">
+      <div class="text-center max-w-lg mx-auto mb-8">
+        <span class="inline-block bg-brandLime text-ink font-display font-semibold text-xs px-4 py-2 rounded-full mb-3">Akun Kamu</span>
+        <h2 class="font-display font-semibold text-2xl sm:text-3xl text-ink">Profil Penulis</h2>
+        <p class="text-slate-500 text-sm sm:text-base mt-2">Lengkapi profilmu supaya mentor lebih kenal gaya menulismu.</p>
       </div>
-      <svg viewBox="0 0 300 340" width="180" class="flex-shrink-0">
-        <ellipse cx="150" cy="322" rx="110" ry="14" fill="rgba(0,0,0,0.15)"/>
-        <path d="M100 60c-6-18 8-32 22-24-2 8-4 16-6 26z" fill="#e6c419"/>
-        <path d="M196 58c8-16-2-32-18-28 0 8 2 18 6 30z" fill="#e6c419"/>
-        <path d="M90 120c-18 24-16 76 8 100 8 54 22 96 62 96s54-42 62-96c24-24 26-76 8-100-32-30-108-30-140 0z" fill="#8fce1e"/>
-        <path d="M118 158c-8 32 4 78 40 78s48-46 40-78c-18 12-62 12-80 0z" fill="#a6dc3f"/>
-        <circle cx="150" cy="160" r="34" fill="#fff"/>
-        <circle cx="150" cy="165" r="19" fill="#155e63"/>
-        <circle cx="157" cy="157" r="6" fill="#fff"/>
-        <path d="M126 200c14 20 34 20 48 0 4 16-8 32-24 32s-28-16-24-32z" fill="#2a1740"/>
-        <path d="M132 202c10 10 26 10 36 0" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none"/>
-        <ellipse cx="128" cy="300" rx="24" ry="13" fill="#5f8f10"/>
-        <ellipse cx="196" cy="300" rx="24" ry="13" fill="#5f8f10"/>
-      </svg>
-    </div>
-  </section>
 
-</main>
+      <div class="bg-white rounded-[1.75rem] shadow-card p-6 sm:p-8 max-w-2xl mx-auto">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
 
-<footer class="text-center py-8 text-inksoft/70 text-xs font-semibold">
-  &copy; 2026 NovelConsult — Tulisanmu, kita kembangkan.
-</footer>
+          <!-- Avatar / photo picker -->
+          <div class="flex flex-col items-center shrink-0">
+            <button type="button" id="avatarTrigger"
+              class="relative w-28 h-28 rounded-full bg-brandLime/30 border-4 border-white shadow-soft overflow-hidden group focus:outline-none">
+              <img id="avatarPreview" src="" alt="Foto profil" class="w-full h-full object-cover hidden">
+              <div id="avatarPlaceholder" class="w-full h-full flex items-center justify-center text-3xl">🙂</div>
+              <div class="absolute inset-0 bg-ink/0 group-hover:bg-ink/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <span class="text-white text-xs font-semibold">Ganti Foto</span>
+              </div>
+            </button>
+            <input type="file" id="avatarInput" accept="image/*" class="hidden">
+            <div class="flex gap-2 mt-3">
+              <button type="button" id="avatarPickBtn" class="text-xs font-semibold bg-brandPurple text-white px-3.5 py-2 rounded-full hover:bg-brandPurpleDark transition">
+                📷 Pilih dari Galeri
+              </button>
+              <button type="button" id="avatarRemoveBtn" class="text-xs font-semibold bg-slate-100 text-slate-500 px-3.5 py-2 rounded-full hover:bg-slate-200 transition hidden">
+                Hapus
+              </button>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-2 text-center max-w-[10rem]">Format JPG/PNG, maks 3MB.</p>
+          </div>
 
-<!-- ================= PWA BANNER ================= -->
-<div id="pwaBanner" class="hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md">
-  <div class="bg-white rounded-blob shadow-soft p-4 pr-3 flex items-start gap-3 border-2 border-purple-100">
-    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-600 to-purple-900 flex items-center justify-center text-lg flex-shrink-0">
-      📲
-    </div>
-    <div class="flex-1 min-w-0">
-      <p class="text-sm font-display font-semibold text-ink">Pasang NovelConsult di layar utama</p>
-      <p class="text-xs text-inksoft mt-0.5 font-semibold">Akses lebih cepat, seperti aplikasi asli.</p>
-    </div>
-    <div class="flex items-center gap-1.5 flex-shrink-0">
-      <button id="pwaOpenBtn" class="text-xs font-display font-semibold px-3.5 py-2.5 rounded-full bg-purple-900 text-white hover:bg-purple-800 transition">Cara pasang</button>
-      <button id="pwaDismissBtn" class="text-xs px-2 py-2 rounded-full text-inksoft/60 hover:text-inksoft transition" aria-label="Tutup">✕</button>
-    </div>
+          <!-- Profile form -->
+          <form id="profileForm" class="flex-1 w-full space-y-4">
+            <div>
+              <label for="profileName" class="block text-sm font-semibold text-ink mb-2">Nama Penulis</label>
+              <input id="profileName" type="text" placeholder="Nama kamu"
+                class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white transition">
+            </div>
+            <div>
+              <label for="profileGenre" class="block text-sm font-semibold text-ink mb-2">Genre Favorit</label>
+              <select id="profileGenre" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white transition">
+                <option value="Fantasi">Fantasi</option>
+                <option value="Romance">Romance</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+                <option value="Drama">Drama</option>
+                <option value="Horor">Horor</option>
+                <option value="Petualangan">Petualangan</option>
+                <option value="Slice of Life">Slice of Life</option>
+              </select>
+            </div>
+            <div>
+              <label for="profileBio" class="block text-sm font-semibold text-ink mb-2">Bio Singkat</label>
+              <textarea id="profileBio" rows="3" placeholder="Ceritakan sedikit tentang gaya menulismu..."
+                class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white transition resize-none"></textarea>
+            </div>
+            <div class="flex items-center gap-3">
+              <button type="submit" class="bg-brandPurple hover:bg-brandPurpleDark transition text-white font-display font-medium px-6 py-3 rounded-xl shadow-soft">
+                Simpan Profil
+              </button>
+              <span id="profileSavedNote" class="text-xs text-brandPurple font-semibold opacity-0 transition">✓ Tersimpan</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== KONSULTASI — functional widget ===== -->
+    <section id="konsultasi" class="px-4 sm:px-6 mt-14 scroll-mt-24">
+      <div class="text-center max-w-lg mx-auto mb-8">
+        <span class="inline-block bg-brandLime text-ink font-display font-semibold text-xs px-4 py-2 rounded-full mb-3">Coba Sekarang</span>
+        <h2 class="font-display font-semibold text-2xl sm:text-3xl text-ink">Buat Outline Novelmu</h2>
+        <p class="text-slate-500 text-sm sm:text-base mt-2">Pilih genre dan jumlah bab, kami bantu susun kerangka cerita &amp; karaktermu.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-[380px,1fr] gap-6">
+        <!-- form -->
+        <div class="bg-white rounded-[1.75rem] shadow-card p-6 sm:p-7 h-fit">
+          <form id="outlineForm" class="space-y-5">
+            <div>
+              <label for="genre" class="block text-sm font-semibold text-ink mb-2">Genre Novel</label>
+              <select id="genre" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white transition">
+                <option value="Fantasi">Fantasi</option>
+                <option value="Romance">Romance</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+                <option value="Drama">Drama</option>
+                <option value="Horor">Horor</option>
+                <option value="Petualangan">Petualangan</option>
+                <option value="Slice of Life">Slice of Life</option>
+              </select>
+            </div>
+            <div>
+              <label for="chapters" class="block text-sm font-semibold text-ink mb-2">Jumlah Bab</label>
+              <input id="chapters" type="number" min="1" max="30" value="5" required
+                class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white transition">
+              <p class="text-xs text-slate-400 mt-1.5">Minimal 1, maksimal 30 bab.</p>
+            </div>
+            <button type="submit" class="w-full bg-brandPurple hover:bg-brandPurpleDark transition text-white font-display font-medium py-3 rounded-xl shadow-soft">
+              Buat Outline
+            </button>
+          </form>
+
+          <div class="mt-8">
+            <h3 class="font-display font-semibold text-sm text-ink mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brandPurple"></span> Riwayat Outline
+            </h3>
+            <div id="historyEmpty" class="text-xs sm:text-sm text-slate-400 bg-slate-50 rounded-xl px-4 py-6 text-center hidden">
+              Belum ada outline tersimpan. Buat outline pertamamu di sebelah kiri, lalu simpan!
+            </div>
+            <div id="historyList" class="grid gap-3 max-h-[420px] overflow-y-auto pr-1 hidden"></div>
+          </div>
+        </div>
+
+        <!-- results -->
+        <div class="bg-white rounded-[1.75rem] shadow-card p-6 sm:p-8">
+
+          <div id="idleState" class="h-full min-h-[320px] flex flex-col items-center justify-center text-center py-10">
+            <div class="w-16 h-16 rounded-2xl bg-brandLime/40 flex items-center justify-center text-3xl mb-4">📖</div>
+            <h3 class="font-display font-semibold text-lg text-ink">Outline-mu akan muncul di sini</h3>
+            <p class="text-sm text-slate-500 mt-1 max-w-xs">Isi form di samping lalu klik "Buat Outline" untuk mulai.</p>
+          </div>
+
+          <div id="loadingState" class="h-full min-h-[320px] flex-col items-center justify-center text-center py-10 hidden">
+            <div class="w-12 h-12 rounded-full border-4 border-brandLime border-t-brandPurple animate-spin mb-4"></div>
+            <p class="text-sm text-slate-500">Sedang menyusun outline &amp; karaktermu...</p>
+          </div>
+
+          <div id="resultsState" class="hidden fade-in">
+            <div class="flex items-center justify-between flex-wrap gap-3 mb-5">
+              <div>
+                <h3 class="font-display font-semibold text-lg sm:text-xl text-ink">Hasil Outline</h3>
+                <p id="resultMeta" class="text-sm text-brandPurple font-medium mt-0.5"></p>
+              </div>
+              <button id="saveIdeaBtn" class="bg-brandLime hover:bg-brandLimeDark transition text-ink font-display font-semibold text-sm px-5 py-2.5 rounded-full">
+                💾 Simpan Outline
+              </button>
+            </div>
+
+            <div>
+              <h4 class="font-display font-medium text-sm text-slate-500 uppercase tracking-wide mb-2">Kerangka Bab</h4>
+              <div id="outlineList" class="grid sm:grid-cols-2 gap-3"></div>
+            </div>
+
+            <div class="mt-7">
+              <h4 class="font-display font-medium text-sm text-slate-500 uppercase tracking-wide mb-2">Karakter</h4>
+              <div id="characterList" class="grid sm:grid-cols-3 gap-3"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="px-4 sm:px-6 mt-16 mb-4">
+      <div class="border-t border-slate-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-slate-400">
+        <p>© 2026 Novel Consult. Tulisanmu, kita kembangkan.</p>
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-brandPurple transition">Blog</a>
+          <a href="#tentang" class="hover:text-brandPurple transition">Tentang</a>
+          <a href="#layanan" class="hover:text-brandPurple transition">Kontak</a>
+        </div>
+      </div>
+    </footer>
+
   </div>
 </div>
 
-<!-- ================= PWA MODAL ================= -->
-<div id="pwaModal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6">
-  <div id="pwaOverlay" class="absolute inset-0 bg-purple-900/50 backdrop-blur-sm"></div>
-  <div class="relative w-full sm:max-w-md bg-white rounded-t-blob-lg sm:rounded-blob-lg p-6 sm:p-9 shadow-soft fade-in">
-    <div class="flex items-center justify-between mb-5">
-      <h3 class="font-display text-xl text-ink font-semibold">Tambahkan ke Beranda</h3>
-      <button id="pwaCloseBtn" class="w-9 h-9 rounded-full bg-cream hover:bg-purple-100 text-inksoft flex items-center justify-center transition" aria-label="Tutup">✕</button>
+<script>
+let generatedData = null;
+
+function scrollToConsult() {
+  document.getElementById('konsultasi').scrollIntoView({ behavior: 'smooth' });
+}
+
+function generateOutlineData(genre, chaptersCount) {
+  const titles = {
+    'Fantasi': ['Awal Gerbang Dimensi', 'Legenda Pedang Kuno', 'Bisikan Hutan Larangan', 'Penyegelan Roh', 'Takdir Pahlawan'],
+    'Romance': ['Pertemuan Tak Terduga', 'Rasa yang Tersembunyi', 'Konflik Kesalahpahaman', 'Keputusan Hati', 'Awal yang Baru'],
+    'Thriller': ['Jejak Misterius', 'Teka-Teki Rahasia', 'Ancaman Dalam Bayangan', 'Terjebak di Ruang Gelap', 'Kebenaran Terungkap'],
+    'Sci-Fi': ['Sinyal dari Luar Angkasa', 'Kecerdasan Buatan', 'Eksplorasi Galaksi', 'Krisis Realitas', 'Masa Depan Manusia'],
+    'Drama': ['Bayang Masa Lalu', 'Rahasia Keluarga', 'Titik Balik Hidup', 'Ujian Persahabatan', 'Kedamaian Hati'],
+    'Horor': ['Rumah Tua Berhantu', 'Suara di Kegelapan', 'Ritual Terlarang', 'Teror Tanpa Henti', 'Malam Terakhir'],
+    'Petualangan': ['Peta Harta Karun', 'Menyeberangi Samudra', 'Tantangan di Puncak', 'Sahabat Baru', 'Puncak Ekspedisi'],
+    'Slice of Life': ['Pagi yang Tenang', 'Cerita di Warung Kopi', 'Hobi Baru', 'Hari Bersama Teman', 'Kenangan Kecil']
+  };
+
+  const currentTitles = titles[genre] || titles['Fantasi'];
+  const chapters = [];
+
+  for (let i = 1; i <= chaptersCount; i++) {
+    const titleBase = currentTitles[(i - 1) % currentTitles.length];
+    chapters.push({
+      number: i,
+      title: `${titleBase} (Bagian ${Math.ceil(i / currentTitles.length)})`,
+      summary: `Pada Bab ${i}, alur ${genre.toLowerCase()} mulai berkembang tajam memicu aksi utama karakter.`,
+      conflict: `Konflik internal dan eksternal yang makin rumit pada Bab ${i}.`,
+      goal: `Mencapai resolusi sementara dan mempersiapkan klimaks bab berikutnya.`
+    });
+  }
+
+  const characters = [
+    { name: 'Karakter Utama', role: 'Protagonis', desc: 'Sosok pemberani yang memperjuangkan kebenaran.' },
+    { name: 'Karakter Pendukung', role: 'Deuteragonis', desc: 'Setia mendampingi dan memberi bantuan saat krisis.' },
+    { name: 'Tokoh Antagonis', role: 'Antagonis', desc: 'Penyebab utama timbulnya konflik dalam cerita.' }
+  ];
+
+  return { genre, chaptersCount, chapters, characters };
+}
+
+function renderResults(data) {
+  generatedData = data;
+  const outlineList = document.getElementById('outlineList');
+  const characterList = document.getElementById('characterList');
+  const resultMeta = document.getElementById('resultMeta');
+
+  resultMeta.textContent = `${data.genre} • ${data.chaptersCount} Bab`;
+
+  outlineList.innerHTML = data.chapters.map(ch => `
+    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1">
+      <div class="font-display font-semibold text-sm text-brandPurple">Bab ${ch.number}: ${ch.title}</div>
+      <p class="text-xs text-slate-600"><strong>Ringkasan:</strong> ${ch.summary}</p>
+      <p class="text-xs text-slate-500"><strong>Konflik:</strong> ${ch.conflict}</p>
     </div>
+  `).join('');
 
-    <div class="flex gap-2 mb-5 bg-cream rounded-full p-1.5">
-      <button data-tab="ios" class="pwa-tab flex-1 text-sm font-display font-semibold py-2.5 rounded-full transition text-white bg-purple-700">🍎 Safari (iOS)</button>
-      <button data-tab="android" class="pwa-tab flex-1 text-sm font-display font-semibold py-2.5 rounded-full transition text-inksoft">🤖 Chrome (Android)</button>
+  characterList.innerHTML = data.characters.map(c => `
+    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+      <div class="flex items-center justify-between mb-1">
+        <h4 class="font-display font-semibold text-sm text-slate-800">${c.name}</h4>
+        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brandPurple/10 text-brandPurple">${c.role}</span>
+      </div>
+      <p class="text-xs text-slate-500">${c.desc}</p>
     </div>
+  `).join('');
 
-    <ol id="pwaStepsIOS" class="space-y-3 text-sm text-inksoft font-semibold">
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>Buka NovelConsult lewat browser Safari.</li>
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>Ketuk ikon <b class="text-ink">Share</b> (kotak dengan panah ke atas) di bagian bawah layar.</li>
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>Pilih <b class="text-ink">"Tambah ke Layar Utama"</b>, lalu ketuk <b class="text-ink">Tambah</b>.</li>
-    </ol>
+  document.getElementById('idleState').classList.add('hidden');
+  document.getElementById('loadingState').classList.add('hidden');
+  document.getElementById('loadingState').classList.remove('flex');
+  document.getElementById('resultsState').classList.remove('hidden');
+}
 
-    <ol id="pwaStepsAndroid" class="hidden space-y-3 text-sm text-inksoft font-semibold">
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-lime-100 text-lime-600 flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>Buka NovelConsult lewat browser Chrome.</li>
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-lime-100 text-lime-600 flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>Ketuk ikon <b class="text-ink">titik tiga (⋮)</b> di pojok kanan atas.</li>
-      <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-lime-100 text-lime-600 flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>Pilih <b class="text-ink">"Tambahkan ke layar utama"</b>, lalu ketuk <b class="text-ink">Tambahkan</b>.</li>
-    </ol>
+function getHistory() {
+  try {
+    return JSON.parse(localStorage.getItem('novel_consult_history') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
 
-    <button id="pwaGotItBtn" class="mt-6 w-full py-3.5 rounded-full bg-purple-900 hover:bg-purple-800 text-white text-sm font-display font-semibold transition">
-      Mengerti
-    </button>
-  </div>
-</div>
+function saveToHistory(data) {
+  const history = getHistory();
+  history.unshift({ id: Date.now(), timestamp: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }), ...data });
+  localStorage.setItem('novel_consult_history', JSON.stringify(history));
+  renderHistory();
+}
 
-<script src="script.js"></script>
+function deleteHistoryItem(id, evt) {
+  if (evt) evt.stopPropagation();
+  const history = getHistory().filter(item => item.id !== id);
+  localStorage.setItem('novel_consult_history', JSON.stringify(history));
+  renderHistory();
+}
+
+function openHistoryItem(id) {
+  const item = getHistory().find(h => h.id === id);
+  if (item) {
+    renderResults(item);
+    document.getElementById('konsultasi').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function renderHistory() {
+  const history = getHistory();
+  const historyEmpty = document.getElementById('historyEmpty');
+  const historyList = document.getElementById('historyList');
+
+  if (history.length === 0) {
+    historyEmpty.classList.remove('hidden');
+    historyList.classList.add('hidden');
+    historyList.classList.remove('grid');
+    return;
+  }
+
+  historyEmpty.classList.add('hidden');
+  historyList.classList.remove('hidden');
+  historyList.classList.add('grid');
+
+  historyList.innerHTML = history.map(item => `
+    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 flex items-center justify-between gap-2 cursor-pointer hover:border-brandPurple/40 transition" onclick="openHistoryItem(${item.id})">
+      <div class="min-w-0">
+        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brandLime text-ink">${item.genre}</span>
+        <h4 class="font-display font-medium text-sm text-slate-800 mt-1.5 truncate">${item.chaptersCount} Bab Outline</h4>
+        <p class="text-[11px] text-slate-400 mt-0.5">${item.timestamp || ''}</p>
+      </div>
+      <button onclick="deleteHistoryItem(${item.id}, event)" title="Hapus" class="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-50 hover:text-red-500 transition text-sm">✕</button>
+    </div>
+  `).join('');
+}
+
+/* ===== Profil ===== */
+const PROFILE_KEY = 'novel_consult_profile';
+const MAX_PHOTO_MB = 3;
+
+function getProfile() {
+  try {
+    return JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null') || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveProfile(profile) {
+  try {
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    return true;
+  } catch (e) {
+    alert('Gagal menyimpan profil. Foto mungkin terlalu besar, coba gunakan foto lain.');
+    return false;
+  }
+}
+
+function setAvatarPreview(dataUrl) {
+  const img = document.getElementById('avatarPreview');
+  const placeholder = document.getElementById('avatarPlaceholder');
+  const removeBtn = document.getElementById('avatarRemoveBtn');
+  if (dataUrl) {
+    img.src = dataUrl;
+    img.classList.remove('hidden');
+    placeholder.classList.add('hidden');
+    removeBtn.classList.remove('hidden');
+  } else {
+    img.src = '';
+    img.classList.add('hidden');
+    placeholder.classList.remove('hidden');
+    removeBtn.classList.add('hidden');
+  }
+}
+
+function loadProfileIntoForm() {
+  const profile = getProfile();
+  document.getElementById('profileName').value = profile.name || '';
+  document.getElementById('profileBio').value = profile.bio || '';
+  document.getElementById('profileGenre').value = profile.genre || 'Fantasi';
+  setAvatarPreview(profile.photo || null);
+}
+
+function initProfileWidget() {
+  loadProfileIntoForm();
+
+  const avatarInput = document.getElementById('avatarInput');
+  const avatarTrigger = document.getElementById('avatarTrigger');
+  const avatarPickBtn = document.getElementById('avatarPickBtn');
+  const avatarRemoveBtn = document.getElementById('avatarRemoveBtn');
+  const profileForm = document.getElementById('profileForm');
+  const savedNote = document.getElementById('profileSavedNote');
+
+  const openGallery = () => avatarInput.click();
+  avatarTrigger.addEventListener('click', openGallery);
+  avatarPickBtn.addEventListener('click', openGallery);
+
+  avatarInput.addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('File yang dipilih bukan gambar. Silakan pilih file JPG/PNG.');
+      avatarInput.value = '';
+      return;
+    }
+    if (file.size > MAX_PHOTO_MB * 1024 * 1024) {
+      alert(`Ukuran foto maksimal ${MAX_PHOTO_MB}MB. Pilih foto lain ya.`);
+      avatarInput.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setAvatarPreview(ev.target.result);
+      const profile = getProfile();
+      profile.photo = ev.target.result;
+      saveProfile(profile);
+    };
+    reader.onerror = () => {
+      alert('Gagal membaca foto. Coba lagi dengan file lain.');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  avatarRemoveBtn.addEventListener('click', () => {
+    setAvatarPreview(null);
+    avatarInput.value = '';
+    const profile = getProfile();
+    delete profile.photo;
+    saveProfile(profile);
+  });
+
+  profileForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const profile = getProfile();
+    profile.name = document.getElementById('profileName').value.trim();
+    profile.bio = document.getElementById('profileBio').value.trim();
+    profile.genre = document.getElementById('profileGenre').value;
+    if (saveProfile(profile)) {
+      savedNote.classList.remove('opacity-0');
+      setTimeout(() => savedNote.classList.add('opacity-0'), 1800);
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderHistory();
+  initProfileWidget();
+
+  const form = document.getElementById('outlineForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const genre = document.getElementById('genre').value;
+      let chapters = parseInt(document.getElementById('chapters').value, 10);
+      if (isNaN(chapters) || chapters < 1) chapters = 1;
+      if (chapters > 30) chapters = 30;
+      document.getElementById('chapters').value = chapters;
+
+      document.getElementById('idleState').classList.add('hidden');
+      document.getElementById('resultsState').classList.add('hidden');
+      document.getElementById('loadingState').classList.remove('hidden');
+      document.getElementById('loadingState').classList.add('flex');
+
+      setTimeout(() => {
+        generatedData = generateOutlineData(genre, chapters);
+        renderResults(generatedData);
+      }, 800);
+    });
+  }
+
+  const saveBtn = document.getElementById('saveIdeaBtn');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', () => {
+      if (generatedData) {
+        saveToHistory(generatedData);
+        const original = saveBtn.innerHTML;
+        saveBtn.innerHTML = '✓ Tersimpan!';
+        setTimeout(() => { saveBtn.innerHTML = original; }, 1400);
+      }
+    });
+  }
+});
+</script>
 </body>
 </html>
